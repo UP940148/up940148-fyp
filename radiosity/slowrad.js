@@ -3,7 +3,7 @@ import Spectra from './spectra.js';
 import Point3 from './point3.js';
 
 export default class SlowRad {
-  constructor(maxTime = 300) {
+  constructor(maxTime = 1000) {
     this.now = 0;                              // currently computing this step
     this.maxTime = maxTime;                    // Maximum number of steps
     this.env = null;                           // Environment
@@ -20,7 +20,7 @@ export default class SlowRad {
     if (speedOfLight == null) {
       const bounds = this.env.boundingBox;
       const diagonal = bounds[0].dist(bounds[1]);
-      this.speedOfLight = diagonal * 2 / this.maxTime;
+      this.speedOfLight = diagonal * 4 / this.maxTime;
     } else {
       this.speedOfLight = speedOfLight;
     }

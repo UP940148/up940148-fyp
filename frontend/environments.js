@@ -8,10 +8,31 @@ import {
   createCubeAndLampInRoom as envLamp,
 } from '../modeling/test-models/two-cubes.js';
 import createMaze from '../modeling/test-models/maze.js';
+import lenniesRoom from '../modeling/test-models/lennie-test.js';
+import lenniesRoom2 from '../modeling/test-models/lennie-test2.js';
+import treeScene from '../modeling/test-models/tree-scene.js';
+import modelTest from '../modeling/test-models/testSTL.js';
 
 // list of available environments; the first one is the default
 
 const environmentsList = [
+    //{
+    //    f: modelTest,
+    //    name: 'Model Test',
+    //},
+    {
+        f: lenniesRoom2,
+        name: 'Main Scene',
+    },
+    {
+        f: treeScene,
+        name: 'Tree',
+    },
+    {
+        f: lenniesRoom,
+        name: 'Lennie',
+    },
+]/*,
   {
     f: envRoom1,
     name: 'Simple room',
@@ -45,7 +66,7 @@ const environmentsList = [
     name: 'Same maze but subdivided (very slow!)',
   },
 ];
-
+*/
 export const selector = new components.Selector('environment', environmentsList);
 
 async function createEnvironment() {

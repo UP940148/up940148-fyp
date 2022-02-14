@@ -1,4 +1,5 @@
 import * as components from './basic-components.js';
+import {resetFlight} from '../renderer.js';
 
 const COMPONENT_CLASSNAME = 'animation-controls';
 
@@ -132,6 +133,10 @@ export function resetIfStartingPlayAtEnd() {
     // if backwards, switch end and beginning
     if (!backward.value && currTime >= maxTimeInclusive) toStart();
     if (backward.value && currTime <= 0) toEnd();
+  }
+  if (currTime === 0) {
+    // Reset camera position
+    resetFlight();
   }
 }
 

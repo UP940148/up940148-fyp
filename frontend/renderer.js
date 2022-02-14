@@ -4,6 +4,7 @@ import { OrbitControls } from '../lib/OrbitControls.js';
 import * as Rad from '../radiosity/index.js';
 import * as Modeling from '../modeling/index.js';
 
+
 import * as axes from './tools/axes.js';
 import * as components from './tools/basic-components.js';
 
@@ -22,10 +23,14 @@ export const viewParameters = {
 
 let renderer;
 let camera;
+let flightCam;
+let flightHelper;
 let scene;
 let controls;
 let material;
 let geometry;
+let r = 0;
+let camToggle = document.getElementById('camera-toggle');
 
 let environment;
 
@@ -37,6 +42,11 @@ export function setup() {
   document.body.append(renderer.domElement);
 
   camera = new THREE.PerspectiveCamera(100, 1, 0.1, 1000);
+
+  // Create camera object for flight cam and camera helper
+  flightCam = new THREE.PerspectiveCamera(84, window.innerWidth / window.innerHeight, 0.01, 1000);
+  flightHelper = new THREE.CameraHelper(flightCam);
+
   controls = new OrbitControls(camera, renderer.domElement);
   controls.enableKeys = false;
 
@@ -152,7 +162,7 @@ function updateControlsForEnvironment() {
 
   camera.position.x = roomCenter.x;
   camera.position.y = roomCenter.y;
-  camera.position.z = roomCenter.z + diagonal.length / 2;
+  camera.position.z = roomCenter.z + 8;
 
   controls.target = new THREE.Vector3(roomCenter.x, roomCenter.y, roomCenter.z);
   controls.maxDistance = diagonal.length * 2;
@@ -213,14 +223,32 @@ function animate() {
   requestAnimationFrame(animate);
 
   if (!scene) return; // nothing to show
-
-  renderer.render(scene, camera);
-  axes.update(camera, controls.target);
+  r += 0.01;
+  flightCam.position.x = Math.cos(r) * 6;
+  flightCam.position.z = Math.sin(r) * 6;
+  flightCam.position.y = 4;//Math.sin(r) * 2;
+  flightCam.lookAt(0,2,0);
+  if (camToggle.dataset.enabled) {
+    renderer.render(scene, flightCam);
+    axes.update(flightCam, new THREE.Vector3());
+  }
+  else {
+    renderer.render(scene, camera);
+    axes.update(camera, controls.target);
+  }
   axes.render();
 }
 
+export function resetFlight() {
+    r = 0;
+}
+
 export function getCameraPosition() {
-  return camera.position;
+    if (camToggle.dataset.enabled) {
+        return flightCam.position;
+    } else {
+        return camera.position;
+    }
 }
 
 export function displayGamma(gamma) {
