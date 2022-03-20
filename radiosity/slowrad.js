@@ -1,6 +1,7 @@
 import HemiCube from './hemicube.js';
 import Spectra from './spectra.js';
 import Point3 from './point3.js';
+import * as ArrayScaling from './array-scaling.js';
 
 export default class SlowRad {
   constructor(maxTime = 1000) {
@@ -12,7 +13,7 @@ export default class SlowRad {
     this.tmpCamPos = new Point3();             // Object to hold last camera position
   }
 
-  open(env, speedOfLight) {
+  open(env, sceneName, speedOfLight) {
     const reset = this.env !== env || (speedOfLight != null && speedOfLight !== this.speedOfLight);
 
     this.env = env;
@@ -32,7 +33,7 @@ export default class SlowRad {
       this.env.initializeFutureExitances(this.maxTime);
       this.initExitance();
     }
-    return this.prepGenerator();
+    return this.prepGenerator(sceneName);
   }
 
   show(time, camPos) {
@@ -68,61 +69,51 @@ export default class SlowRad {
     const shoot = new Spectra();
 
     const patches = this.env.patches;
-    const surfaces = this.env.surfaces;
     let cp = 0;
     while (cp < patches.length) { // For every patch in scene
       // calculate form factors
       const rffArray = patches[cp].rffArray;
 
-      let s = 0;
-      while (s < surfaces.length) { // For every surface in scene
-        // Get surface reflectance
-        const reflect = surfaces[s].reflectance;
+      let p = 0;
+      while (p < patches.length) { // For every other patch
+        const reflect = patches[p].parentSurface.reflectance;
+        // ignore self patch
+        if (patches[p] !== patches[cp]) {
+          let e = 0;
+          while (e < patches[p].elements.length) { // For every element of the current surface patch
+            // Check element visibility
+            if (rffArray[patches[p].elements[e].number] > 0) {
+              // compute when the element would receive the light
+              const receivingTime = this.now + patches[cp].distArray[patches[p].elements[e].number];
+              // only propagate the light if we aren't out of future buffer
+              if (receivingTime < this.maxTime) {
+                // get reciprocal form factor
+                const rff = rffArray[patches[p].elements[e].number];
 
-        let p = 0;
-        while (p < surfaces[s].patches.length) { // For every patch of the current surface
-          // ignore self patch
-          if (surfaces[s].patches[p] !== patches[cp]) {
-            let e = 0;
-            while (e < surfaces[s].patches[p].elements.length) { // For every element of the current surface patch
-              // Check element visibility
-              if (rffArray[surfaces[s].patches[p].elements[e].number] > 0) {
-                // compute when the element would receive the light
-                const receivingTime = this.now + patches[cp].distArray[surfaces[s].patches[p].elements[e].number];
-                // only propagate the light if we aren't out of future buffer
-                if (receivingTime < this.maxTime) {
-                  // get reciprocal form factor
-                  const rff = rffArray[surfaces[s].patches[p].elements[e].number];
+                // Get shooting patch unsent exitance
+                shoot.setTo(patches[cp].futureExitances[this.now]);
 
-                  // Get shooting patch unsent exitance
-                  shoot.setTo(patches[cp].futureExitances[this.now]);
+                // Calculate delta exitance
+                shoot.scale(rff);
+                shoot.multiply(reflect);
 
-                  // Calculate delta exitance
-                  shoot.scale(rff);
-                  shoot.multiply(reflect);
+                // Store element exitance
+                patches[p].elements[e].futureExitances[receivingTime].add(shoot);
 
-                  // Store element exitance
-                  surfaces[s].patches[p].elements[e].futureExitances[receivingTime].add(shoot);
-
-                  shoot.scale(surfaces[s].patches[p].elements[e].area / surfaces[s].patches[p].area);
-                  surfaces[s].patches[p].futureExitances[receivingTime].add(shoot);
-                }
+                shoot.scale(patches[p].elements[e].area / patches[p].area);
+                patches[p].futureExitances[receivingTime].add(shoot);
               }
-              e++;
             }
+            e++;
           }
-          p++;
         }
-        s++;
+        p++;
       }
-
       // Reset unsent exitance to zero
       patches[cp].futureExitances[this.now].reset();
       cp++;
     }
-
     this.env.interpolateVertexExitances(this.now);
-
     this.now++;
 
     // Convergence not achieved yet
@@ -189,7 +180,7 @@ export default class SlowRad {
       const activeTime = surfaces[s].activeTime;
       if (!activeTime) {
         s++;
-        continue
+        continue;
       }
       // Get surface emittance
       const emit = surfaces[s].emittance;
@@ -242,24 +233,111 @@ export default class SlowRad {
     return this;
   }
 
-  * prepGenerator() {
+  async* prepGenerator(scene) {
     // calculate distances and form factors
     const max = this.env.patchCount;
     let curr = 0;
     yield { curr, max };
+    // Load data from file
+    const data = await this.loadFromArrays(scene);
 
-    const patches = this.env.patches;
-    let cp = 0;
-    while (cp < patches.length) {
-      curr++;
-      this.computeDistArray(patches[cp]);
-      this.computeRFFArray(patches[cp]);
-      yield { curr, max };
-      cp++;
+    if (data) {
+      // If data from file is a match for the scene, then load exitances
+      console.log('Loading');
+      const vertices = this.env.vertices;
+      let v = 0;
+      while (v < vertices.length) {
+        const exitances = data.exitance[v];
+        this.now = 0;
+        while (this.now < this.maxTime) {
+          const level = exitances[this.now];
+          const exitance = new Spectra(level, level, level);
+          vertices[v].futureExitances[this.now] = exitance;
+          this.now++;
+        }
+        yield { curr: v + 1, max: vertices.length };
+        v++;
+      }
+    } else {
+      const patches = this.env.patches;
+      let cp = 0;
+      while (cp < patches.length) {
+        curr++;
+        this.computeDistArray(patches[cp]);
+        this.computeRFFArray(patches[cp]);
+        yield { curr, max };
+        cp++;
+      }
+      // If data isn't a match, compute exitances
+      console.log('Computing');
+      while (!this.calculate()) {
+        yield { curr: this.now, max: this.maxTime };
+      }
+      // Once computing is done, save data
+      this.saveArrays(scene);
+    }
+  }
+
+  async loadFromArrays(name) {
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append('pragma', 'no-cache');
+      myHeaders.append('cache-control', 'no-cache');
+      const myInit = {
+        method: 'GET',
+        headers: myHeaders,
+      };
+      const response = await fetch(`../modeling/test-models/${name}-Arrays.json`, myInit);
+      const data = await response.json();
+      // let d = 0;
+      // while (d < data.dist.length) {
+      //   data.dist[d] = ArrayScaling.expand(data.dist[d]);
+      //   d++;
+      // }
+
+      let e = 0;
+      while (e < data.exitance.length) {
+        data.exitance[e] = ArrayScaling.expand(data.exitance[e]);
+        e++;
+      }
+      return data;
+    } catch (err) {
+      console.log(err);
+      return undefined;
+    }
+  }
+
+  saveArrays(name) {
+    const vertices = this.env.vertices;
+    const exitance = [];
+    let v = 0;
+    while (v < vertices.length) {
+      const vertEntry = [];
+      let t = 0;
+      while (t < this.maxTime) {
+        vertEntry.push(vertices[v].futureExitances[t].r);
+        t++;
+      }
+      exitance.push(vertEntry);
+      v++;
     }
 
-    while (!this.calculate()) {
-      yield { curr: this.now, max: this.maxTime };
+    let e = 0;
+    while (e < exitance.length) {
+      exitance[e] = ArrayScaling.shrink(exitance[e]);
+      e++;
     }
+
+    const output = {
+      exitance: exitance,
+    };
+
+
+    const json = JSON.stringify(output);
+    const blob = new Blob([json], { type: 'text/plain;charset=utf-8' });
+    const link = document.createElement('a');
+    link.download = `${name}-Arrays.json`;
+    link.href = URL.createObjectURL(blob);
+    link.click();
   }
 }
