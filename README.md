@@ -1,15 +1,7 @@
-# Slow-light Radiosity
+# Echolocation simulation using Slow-light Radiosity
 
-An adaptation of the Radiosity algorithm and implementation from Ashdown's ["Radiosity: A Programmer's Perspective"](https://dl.acm.org/doi/book/10.5555/527751) (Ian Ashdown, 1994) in Javascript and with extensions to visualize slow propagation of light.
+This repository shows the work done for my Final Year Project at the University of Portsmouth.
 
-## Modules
+This system is a modification of the existing [Slow-light Radiosity repository](https://github.com/portsoc/Slow-light-Radiosity) made by my supervisor [Dr Jacek Kopecky](https://github.com/jacekkopecky) and [Thomas Mattone](https://github.com/Eccsx).
 
-* `radiosity/` contains the environment modeling classes, and the radiosity algorithms;
-* `modeling/` contains classes for creating and loading various types of models;
-* `frontend/` has a visualization environment and various tests
-* `test/` has all unit tests
-* `lib/` contains third-party libraries
-
-Work in progress.
-
-See the current status at [http://portsoc.github.io/Slow-light-Radiosity/frontend/](http://portsoc.github.io/Slow-light-Radiosity/frontend/)
+The current version is running at [https://project.d-ellis.net](https://project.d-ellis.net).
