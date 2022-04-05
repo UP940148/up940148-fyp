@@ -16,7 +16,10 @@ import mainScene from '../modeling/test-models/main-scene.js';
 
 import invisLight from '../modeling/test-models/unit-tests/invisible-light.js';
 import visLight from '../modeling/test-models/unit-tests/visible-light.js';
-import test2 from '../modeling/test-models/unit-tests/camera-test.js';
+import camTest from '../modeling/test-models/unit-tests/camera-test.js';
+import seqTest from '../modeling/test-models/unit-tests/sequential-lights.js';
+import stlTreeTest from '../modeling/test-models/unit-tests/stl-tree.js';
+import slowTree from '../modeling/test-models/unit-tests/json-tree1.js';
 
 import tree from '../modeling/test-models/tree-room.js';
 
@@ -53,10 +56,25 @@ export const environmentsList = [
     id: 'visible-light',
   },
   {
-    f: test2,
+    f: camTest,
     name: 'TEST: Camera path',
     id: 'test-cam',
   },
+  {
+    f: seqTest,
+    name: 'TEST: Sequential light',
+    id: 'sequence-test',
+  },
+  {
+    f: stlTreeTest,
+    name: 'TEST: Tree (.stl) *WILL CRASH*',
+    id: 'stl-tree',
+  },
+  {
+    f: slowTree,
+    name: 'TEST: Tree (.json) slow',
+    id: 'json-tree-slow',
+  }
 ];
 /*
 ,

@@ -2,3 +2,4 @@ coverage/
 node_modules/
 eslint-config-portsoc/
 .vscode
+modeling/test-models/Testing Scene-Arrays.json

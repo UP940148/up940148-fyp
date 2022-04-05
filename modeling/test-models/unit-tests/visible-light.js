@@ -6,7 +6,7 @@ import * as Plane from '../../singleface.js';
 
 export default async function createScene() {
   // Create directed light source
-  const lightReflectance = new Rad.Spectra(5, 0, 0);
+  const lightReflectance = new Rad.Spectra(1, 1, 1);
   const lightEmittance = new Rad.Spectra(100, 100, 100);
 
   const light = makePlane(lightReflectance, lightEmittance);

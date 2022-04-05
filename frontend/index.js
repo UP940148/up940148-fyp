@@ -37,6 +37,11 @@ takePic.addEventListener('click', () => {
   }, 'image/png');
 });
 
+const openHelp = document.getElementById('open-help');
+openHelp.addEventListener('click', () => {
+  window.open('./help.html');
+});
+
 function init() {
   renderer.setup();
   setupUI();
@@ -69,8 +74,8 @@ function setupUI() {
   );
 
   // radiosity parameters
-  algorithms.setupHtml('#algorithms');
-  algorithms.setupSwitchKeyHandler('s', 'Radiosity');
+  // algorithms.setupHtml('#algorithms');
+  // algorithms.setupSwitchKeyHandler('s', 'Radiosity');
 
   // view controls
   animationControls.playbackSpeed.setupHtml('#speed-slider', animationControls.displaySpeedSetting);
@@ -94,9 +99,9 @@ function setupUI() {
   renderer.viewParameters.viewGlobalCamera.setupHtml('#global');
   renderer.viewParameters.viewGlobalCamera.setupKeyHandler('c', 'View');
 
-  renderer.viewParameters.includeAmbient.addExplanation('ProgRad can show light that is yet to be distributed.');
-  renderer.viewParameters.includeAmbient.setupHtml('#ambient');
-  renderer.viewParameters.includeAmbient.setupKeyHandler('a', 'View');
+  // renderer.viewParameters.includeAmbient.addExplanation('ProgRad can show light that is yet to be distributed.');
+  // renderer.viewParameters.includeAmbient.setupHtml('#ambient');
+  // renderer.viewParameters.includeAmbient.setupKeyHandler('a', 'View');
 
   kbd.registerKeyboardShortcut('Escape',
     () => {

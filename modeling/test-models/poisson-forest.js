@@ -5,7 +5,7 @@ import Transform3 from '../transform3.js';
 import * as Cube from '../cube.js';
 import * as Plane from '../singleface.js';
 import * as Cylinder from '../cylinder.js';
-import * as TreeLoader from '../json-tree-loader.js';
+import * as TreeLoader from '../json-tree-loader - Copy.js';
 let retrieve;
 
 

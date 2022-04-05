@@ -6,7 +6,7 @@ import * as Plane from '../../singleface.js';
 
 export default async function createScene() {
   // Create directed light source
-  const lightReflectance = new Rad.Spectra(5, 0, 0);
+  const lightReflectance = new Rad.Spectra(1, 1, 1);
   const lightEmittance = new Rad.Spectra(100, 100, 100);
 
   const light = makePlane(lightReflectance, lightEmittance);
@@ -18,8 +18,8 @@ export default async function createScene() {
   l1x.transform(light);
 
   // Create both walls
-  const wallReflectance = new Rad.Spectra(0.5, 0.5, 0.5);
   const wallEmittance = new Rad.Spectra(0, 0, 0);
+  const wallReflectance = new Rad.Spectra(0.5, 0.5, 0.5);
 
   const wall1 = makePlane(wallReflectance, wallEmittance, 64);
   const w1x = new Transform3();

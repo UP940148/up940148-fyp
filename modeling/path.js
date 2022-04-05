@@ -16,7 +16,11 @@ export function flightPath(step) {
   const y = 20 * Math.sin(t);
   const z = (Math.sin(3 * t) + 2 * Math.cos(t)) + 16;
 
-  return [x, y, z];
+  const dx = -20 * Math.sin(t);
+  const dy = 20 * Math.cos(t);
+  const dz = 3 * Math.cos(3 * t) - Math.sin(t);
+
+  return [x, y, z, dx, dy, dz];
 }
 
 // Derivatives

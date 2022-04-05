@@ -1,0 +1,30 @@
+.menu-item {
+  height: 2.5em;
+  width: 2.75em;
+  text-align: center;
+  border: 2px solid white;
+}
+#menu {
+  border: none;
+  margin: 2px;
+}
+#menu > div {
+  background-color: var(--bg) !important;
+  margin: 2px;
+}
+/* menu button colors */
+#menu > :nth-child(1) > .menu-item { background-color: #4aaca9; }
+#menu > :nth-child(2) > .menu-item { background-color: #75c9c8; }
+#menu > :nth-child(3) > .menu-item { background-color: #9CB6DD; }
+#menu > :nth-child(4) > .menu-item { background-color: #c0b9dd; }
+#menu > :nth-child(5) > .menu-item { background-color: #ded9e2; }
+#menu > :nth-child(6) > .menu-item { background-color: #f7f4ea; }
+
+.help-item {
+  display: flex;
+  align-items: center;
+}
+
+.help-item > p {
+  padding-left: 0.5em;
+}

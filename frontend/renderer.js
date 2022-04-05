@@ -26,7 +26,6 @@ export const viewParameters = {
 let renderer;
 let camera;
 let flightCam;
-let flightHelper;
 let scene;
 let controls;
 let material;
@@ -50,7 +49,6 @@ export function setup() {
 
   // Create camera object for flight cam and camera helper
   flightCam = new THREE.PerspectiveCamera(84, window.innerWidth / window.innerHeight, 0.01, 1000);
-  flightHelper = new THREE.CameraHelper(flightCam);
 
   controls = new OrbitControls(camera, renderer.domElement);
   controls.enableKeys = false;

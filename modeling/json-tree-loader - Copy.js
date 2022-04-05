@@ -22,7 +22,7 @@ export async function load(filepath, isTree = true, colour = false) {
   if (isTree) {
     let b = 0;
     while (b < tree.branches.length) {
-      if (tree.branches[b].width > -0.8) {
+      if (tree.branches[b].width > 0.8) {
         const object = createBranch(tree.branches[b]);
         surfaces = surfaces.concat(object.surfaces);
       }

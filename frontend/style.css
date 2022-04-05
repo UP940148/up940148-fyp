@@ -1,6 +1,6 @@
 :root {
-  /*--bg: #2d3436*/;
-  --bg: #000000;
+  --bg: #2d3436;
+  /*--bg: #000000;*/
   --bga: #2d3436e0;
   --fg: white;
 }
@@ -103,6 +103,7 @@ html, body {
 #menu > :nth-child(4) { background-color: #c0b9dd; }
 #menu > :nth-child(5) { background-color: #ded9e2; }
 #menu > :nth-child(6) { background-color: #f7f4ea; }
+#menu > :nth-child(7) { background-color: #fcf4dd; }
 
 #settings {
   min-width: 25em;
