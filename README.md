@@ -7,7 +7,7 @@ Thank you for taking the time to consider whether you want to provide feedback o
 
 Please ensure you have read and understood the Participant Information Sheet, which can be found [here](./Participant-Information-Sheet.pdf).
 
-The feedback form can be found at https://forms.gle/1aMj9daFPGgQjFvV9
+The feedback form can be found at [https://forms.gle/1aMj9daFPGgQjFvV9](https://forms.gle/1aMj9daFPGgQjFvV9).
 
 The system is up and running for testing at [https://project.d-ellis.net/frontend](https://project.d-ellis.net/frontend).
 
