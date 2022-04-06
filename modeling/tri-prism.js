@@ -29,7 +29,39 @@ export function makePrism(reflectance, emittance, subdivide = 1, subPatches = fa
     surfaceFromPoints([p[0], p[1], p[4], p[3]], subdivide, subPatches),
     surfaceFromPoints([p[1], p[2], p[5], p[4]], subdivide, subPatches),
     surfaceFromPoints([p[2], p[0], p[3], p[5]], subdivide, subPatches),
-  ]
+  ];
+
+  return new Rad.Instance(surfaces);
+}
+
+export function prismFromPoints(p1, p2, w, reflectance, emittance, subdivide = 1, subPatches = false) {
+  if (typeof subdivide === 'number') {
+    // When looking at each face head on, [x, z]
+    subdivide = [subdivide, subdivide]; // subdivision along the X,Z axes
+  }
+
+  // Angle should be 1/3 of a whole turn
+  const angle = 2 * Math.PI / 3;
+
+  const x1 = Math.cos(angle) / 2;
+  const y1 = Math.sin(angle) / 2;
+  const x2 = Math.cos(2 * angle) / 2;
+  const y2 = Math.sin(2 * angle) / 2;
+
+  const p = [
+    new Rad.Point3((0.5 + p1.x) * w, (0 + p1.y) * w, p1.z), // 0
+    new Rad.Point3((x1 + p1.x) * w, (y1 + p1.y) * w, p1.z), // 1
+    new Rad.Point3((x2 + p1.x) * w, (y2 + p1.y) * w, p1.z), // 2
+    new Rad.Point3((0.5 + p2.x) * w, (0 + p2.y) * w, p2.z), // 3
+    new Rad.Point3((x1 + p2.x) * w, (y1 + p2.y) * w, p2.z), // 4
+    new Rad.Point3((x2 + p2.x) * w, (y2 + p2.y) * w, p2.z), // 5
+  ];
+
+  const surfaces = [
+    surfaceFromPoints([p[0], p[1], p[4], p[3]], subdivide, subPatches),
+    surfaceFromPoints([p[1], p[2], p[5], p[4]], subdivide, subPatches),
+    surfaceFromPoints([p[2], p[0], p[3], p[5]], subdivide, subPatches),
+  ];
 
   return new Rad.Instance(surfaces);
 }
