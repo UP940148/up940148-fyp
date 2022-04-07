@@ -44,47 +44,22 @@ function jsonLeaf(p, scale) {
 }
 
 function jsonBranch(p1, p2, w = 1) {
-  // Calculate branch length
-  const xDist = p2.x - p1.x;
-  const yDist = p2.y - p1.y;
-  const zDist = p2.z - p1.z;
-
-  // Pythagoras to get actual length
-  const L = Math.sqrt(xDist ** 2 + yDist ** 2 + zDist ** 2);
-
-  // Calculate branch rotation
-  // const rotation = {
-  //   x: Math.atan2(zDist, -yDist) * 180 / Math.PI,
-  //   y: Math.atan2(zDist, xDist) * 180 / Math.PI,
-  //   z: Math.atan2(yDist, xDist) * 180 / Math.PI,
-  // };
-
-  // Use dot product to calculate angle
-  // Unit vector along +ve z = (0, 0, 1)
-  // So dot product only cares about z angle
-  // p2.Uz = zDist
-
-  // Divide dot product by magnitude of both vectors
-
-  const xRotation = Math.acos(zDist / L) * 180 / Math.PI;
-
-  const rotation = {
-    x: xRotation,
-    z: Math.atan2(yDist, xDist) * 180 / Math.PI,
-  };
-
-
   // Origin position
-  const position = {
+  const start = {
     x: p1.x,
     y: p1.y,
     z: p1.z,
   };
 
+  const end = {
+    x: p2.x,
+    y: p2.y,
+    z: p2.z,
+  };
+
   return {
-    rotation: rotation,
-    start: position,
-    length: L,
+    start: start,
+    end: end,
     width: w,
   };
 }

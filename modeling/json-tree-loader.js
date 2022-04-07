@@ -22,7 +22,7 @@ export async function load(filepath, isTree = true, colour = false) {
   if (isTree) {
     let b = 0;
     while (b < tree.branches.length) {
-      if (tree.branches[b].width > -0.8) {
+      if (tree.branches[b].width > 0.7) {
         const object = createBranch(tree.branches[b]);
         surfaces = surfaces.concat(object.surfaces);
       }
@@ -72,7 +72,7 @@ function createBranch(branch) {
   // retVal.surfaces.pop();
   // retVal.surfaces.pop();
 
-  const retVal = Tri.makePrism(branchReflectance, new Rad.Spectra(0, 0, 0));
+  const retVal = Tri.prismFromPoints(branch.start, branch.end, branch.width, branchReflectance, new Rad.Spectra(0, 0, 0));
 
   // Add reflectance values
   let s = 0;
@@ -80,15 +80,6 @@ function createBranch(branch) {
     retVal.surfaces[s].reflectance.add(branchReflectance);
     s++;
   }
-
-  const xForm = new Transform3();
-  // Place on x,y centre
-  xForm.translate(-0.5, -0.5, 0);
-  xForm.scale(branch.width, branch.width, branch.length);
-  xForm.rotate(branch.rotation.x, 0, branch.rotation.z);
-  xForm.translate(branch.start.x, branch.start.y, branch.start.z);
-
-  xForm.transform(retVal);
 
   return retVal;
 }
