@@ -49,12 +49,12 @@ export function prismFromPoints(p1, p2, w, reflectance, emittance, subdivide = 1
   const y2 = Math.sin(2 * angle) / 2;
 
   const p = [
-    new Rad.Point3((0.5 + p1.x) * w, (0 + p1.y) * w, p1.z), // 0
-    new Rad.Point3((x1 + p1.x) * w, (y1 + p1.y) * w, p1.z), // 1
-    new Rad.Point3((x2 + p1.x) * w, (y2 + p1.y) * w, p1.z), // 2
-    new Rad.Point3((0.5 + p2.x) * w, (0 + p2.y) * w, p2.z), // 3
-    new Rad.Point3((x1 + p2.x) * w, (y1 + p2.y) * w, p2.z), // 4
-    new Rad.Point3((x2 + p2.x) * w, (y2 + p2.y) * w, p2.z), // 5
+    new Rad.Point3(p1.x + (0.5 * w), p1.y + (0 * w),  p1.z),
+    new Rad.Point3(p1.x + (x1 * w),  p1.y + (y1 * w), p1.z),
+    new Rad.Point3(p1.x + (x2 * w),  p1.y + (y2 * w), p1.z),
+    new Rad.Point3(p2.x + (0.5 * w), p2.y + (0 * w),  p2.z),
+    new Rad.Point3(p2.x + (x1 * w),  p2.y + (y1 * w), p2.z),
+    new Rad.Point3(p2.x + (x2 * w),  p2.y + (y2 * w), p2.z),
   ];
 
   const surfaces = [
