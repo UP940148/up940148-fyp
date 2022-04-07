@@ -1,13 +1,10 @@
 import * as Rad from '../radiosity/index.js';
 import Transform3 from './transform3.js';
-import * as Cube from './cube.js';
 import * as Tri from './tri-prism.js';
 import * as Face from './singleface.js';
 
 let branchReflectance = new Rad.Spectra(0.4, 0.4, 0.4);
 let leafReflectance = new Rad.Spectra(0.8, 0.8, 0.8);
-// let branchReflectance = new Rad.Spectra(0.1804, 0.1098, 0.0627);
-// let leafReflectance = new Rad.Spectra(0.2118, 0.4510, 0.1882);
 
 export async function load(filepath, isTree = true, colour = false) {
   if (colour) {
@@ -15,7 +12,6 @@ export async function load(filepath, isTree = true, colour = false) {
     leafReflectance = new Rad.Spectra(0.2118, 0.4510, 0.1882);
   }
   const tree = await getObject(filepath);
-  // console.log(tree);
 
   let surfaces = [];
 
@@ -64,14 +60,6 @@ async function getObject(file) {
 
 
 function createBranch(branch) {
-  // Create as cubes (Maybe remove faces later)
-
-  // const retVal = Cube.unitCubeMultiSurface();
-
-  // Remove top and bottom faces
-  // retVal.surfaces.pop();
-  // retVal.surfaces.pop();
-
   const retVal = Tri.prismFromPoints(branch.start, branch.end, branch.width, branchReflectance, new Rad.Spectra(0, 0, 0));
 
   // Add reflectance values
