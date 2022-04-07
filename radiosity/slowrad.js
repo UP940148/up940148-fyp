@@ -291,7 +291,7 @@ export default class SlowRad {
         method: 'GET',
         headers: myHeaders,
       };
-      const response = await fetch(`../modeling/test-models/${name}-Arrays.json`, myInit);
+      const response = await fetch(`../modeling/test-models/exitance-arrays/${name}-Arrays.json`, myInit);
       const data = await response.json();
       // let d = 0;
       // while (d < data.dist.length) {
