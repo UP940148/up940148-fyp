@@ -16,10 +16,10 @@ import * as shapes from './shapes.js';
 import { P } from './point.js';
 
 function main() {
-  const r = 20;
+  const r = 60;
   const trunk = 30;
 
-  const N = 2000;
+  const N = 10000;
   const hollowing = shapes.randomHollowing; // makes the generated sphere or half-sphere less dense inside
 
   const points = shapes.hollowSphereAttractionPoints(N, r, P(0, 0, trunk + r), hollowing);
@@ -30,7 +30,7 @@ function main() {
     D: 1,
     di: (r + trunk) * 0.8, // radius of influence
     dk: 6, // kill distance
-    relocateFraction: 0.2, // how much down the branch towards the root should every point move
+    relocateFraction: 0, // how much down the branch towards the root should every point move
     minThickness: 0.2, // how thick should the smallest branches be
     thicknessPower: 2, // bigger power means smaller branches are closer in thickness to parent branches
     maxStep: 1000,

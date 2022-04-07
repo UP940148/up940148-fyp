@@ -4,12 +4,19 @@ import invisLight from '../modeling/test-models/unit-tests/invisible-light.js';
 import visLight from '../modeling/test-models/unit-tests/visible-light.js';
 import camTest from '../modeling/test-models/unit-tests/camera-test.js';
 import seqTest from '../modeling/test-models/unit-tests/sequential-lights.js';
-import stlTreeTest from '../modeling/test-models/unit-tests/stl-tree.js';
+// import stlTreeTest from '../modeling/test-models/unit-tests/stl-tree.js';
 import slowTree from '../modeling/test-models/unit-tests/json-tree1.js';
+import limitTester from '../modeling/test-models/limit-tester.js';
+import treeViewer from '../modeling/test-models/tree-viewer.js';
 
 // list of available environments; the first one is the default
 
 export const environmentsList = [
+  {
+    f: treeViewer,
+    name: 'Tree model viewer',
+    id: 'tree-view',
+  },
   {
     f: limitTester,
     name: 'Limit tester',
