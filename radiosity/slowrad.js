@@ -310,7 +310,7 @@ export default class SlowRad {
     }
   }
 
-  saveArrays(name) {
+  async saveArrays(name) {
     const vertices = this.env.vertices;
     const exitance = [];
     let v = 0;
@@ -336,14 +336,12 @@ export default class SlowRad {
     };
 
     const json = JSON.stringify(output);
+    const fs = await import('fs');
 
-    console.log(json);
-    /*
-    const blob = new Blob([json], { type: 'text/plain;charset=utf-8' });
-    const link = document.createElement('a');
-    link.download = `${name}-Arrays.json`;
-    link.href = URL.createObjectURL(blob);
-    link.click();
-    */
+    fs.writeFile(`../modeling/test-models/exitance-arrays/${name}-Arrays.json`, json, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
   }
 }

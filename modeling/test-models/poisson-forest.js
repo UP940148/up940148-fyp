@@ -5,7 +5,7 @@ import Transform3 from '../transform3.js';
 import * as Cube from '../cube.js';
 import * as Plane from '../singleface.js';
 import * as Cylinder from '../cylinder.js';
-import * as TreeLoader from '../json-tree-loader - Copy.js';
+import * as TreeLoader from '../json-tree-loader.js';
 let retrieve;
 
 
@@ -63,10 +63,10 @@ export default async function createScene() {
 
   let treeData;
   try {
-    const treeResponse = await fetch('../modeling/test-models/poisson-tree-samples.json');
+    const treeResponse = await fetch('../modeling/test-models/poisson-samples/poisson-tree-samples.json');
     treeData = await treeResponse.json();
   } catch {
-    treeData = retrieve('../modeling/test-models/poisson-tree-samples.json');
+    treeData = retrieve('../modeling/test-models/poisson-samples/poisson-tree-samples.json');
   } finally {
     let t = 0;
     while (t < treeData.length) {
@@ -87,10 +87,10 @@ export default async function createScene() {
 
   let shrubData;
   try {
-    const shrubResponse = await fetch('../modeling/test-models/poisson-shrub-samples.json');
+    const shrubResponse = await fetch('../modeling/test-models/poisson-samples/poisson-shrub-samples.json');
     shrubData = await shrubResponse.json();
   } catch {
-    shrubData = retrieve('../modeling/test-models/poisson-shrub-samples.json');
+    shrubData = retrieve('../modeling/test-models/poisson-samples/poisson-shrub-samples.json');
   } finally {
     let s = 0;
     while (s < shrubData.length) {

@@ -6,6 +6,7 @@ const selected = parseInt(process.argv[2]) || 0;
 
 let env = environmentsList[selected];
 const name = env.id;
+console.log('\n', env.name);
 
 const alg = new Rad.SlowRad();
 
