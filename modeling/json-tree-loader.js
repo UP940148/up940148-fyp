@@ -73,6 +73,7 @@ function createBranch(branch) {
 }
 
 function createLeaf(leaf, isTree, colour) {
+  if (leaf === '') return 0;
   if (!isTree) {
     leafReflectance = new Rad.Spectra(0.7, 0.7, 0.7);
     if (colour) {

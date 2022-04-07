@@ -12,8 +12,8 @@ export function flightPath(step) {
   */
   const speed = 2;
   const t = (step * 2 * Math.PI / 1000) * speed;
-  const x = 20 * Math.cos(t);
-  const y = 20 * Math.sin(t);
+  const x = 31 * Math.cos(t);
+  const y = 31 * Math.sin(t);
   const z = (Math.sin(3 * t) + 2 * Math.cos(t)) + 16;
 
   const dx = -20 * Math.sin(t);
