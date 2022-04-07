@@ -20,6 +20,7 @@ import camTest from '../modeling/test-models/unit-tests/camera-test.js';
 import seqTest from '../modeling/test-models/unit-tests/sequential-lights.js';
 import stlTreeTest from '../modeling/test-models/unit-tests/stl-tree.js';
 import slowTree from '../modeling/test-models/unit-tests/json-tree1.js';
+import accurateTree from '../modeling/test-models/unit-tests/json-tree10.js';
 
 import tree from '../modeling/test-models/tree-room.js';
 
@@ -31,6 +32,11 @@ export const environmentsList = [
   //   f: mainScene,
   //   name: 'Main Scene',
   // },
+  {
+    f: accurateTree,
+    name: 'Tree (Accurate)',
+    id: 'accurate-tree',
+  },
   {
     f: forest,
     name: 'Forest',

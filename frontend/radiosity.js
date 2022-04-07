@@ -61,6 +61,7 @@ async function startBuffering() {
   } finally {
     bufferingIterator = null;
     bufferingRunning = false;
+    console.log(performance.now());
   }
 }
 
