@@ -3,14 +3,19 @@ import Transform3 from './transform3.js';
 import * as Tri from './tri-prism.js';
 import * as Face from './singleface.js';
 
-let branchReflectance = new Rad.Spectra(0.4, 0.4, 0.4);
-let leafReflectance = new Rad.Spectra(0.8, 0.8, 0.8);
 
 export async function load(filepath, isTree = true, colour = false) {
+  let branchReflectance;
+  let leafReflectance;
+  // Set coloured or greyscale
   if (colour) {
     branchReflectance = new Rad.Spectra(0.1804, 0.1098, 0.0627);
-    leafReflectance = new Rad.Spectra(0.2118, 0.4510, 0.1882);
+    leafReflectance = isTree ? new Rad.Spectra(0.2118, 0.4510, 0.1882) : new Rad.Spectra(0.0667, 0.1255, 0.0627);
+  } else {
+    branchReflectance = new Rad.Spectra(0.4, 0.4, 0.4);
+    leafReflectance = isTree ? new Rad.Spectra(0.8, 0.8, 0.8) : new Rad.Spectra(0.7, 0.7, 0.7);
   }
+
   const tree = await getObject(filepath);
 
   let surfaces = [];
@@ -19,7 +24,7 @@ export async function load(filepath, isTree = true, colour = false) {
     let b = 0;
     while (b < tree.branches.length) {
       if (tree.branches[b].width > 0.7) {
-        const object = createBranch(tree.branches[b]);
+        const object = createBranch(tree.branches[b], branchReflectance);
         surfaces = surfaces.concat(object.surfaces);
       }
       b++;
@@ -28,7 +33,7 @@ export async function load(filepath, isTree = true, colour = false) {
 
   let l = 0;
   while (l < tree.leaves.length) {
-    const objects = createLeaf(tree.leaves[l], isTree, colour);
+    const objects = createLeaf(tree.leaves[l], isTree, leafReflectance);
     let o = 0;
     while (o < objects.length) {
       if (objects[o]) {
@@ -59,7 +64,7 @@ async function getObject(file) {
 }
 
 
-function createBranch(branch) {
+function createBranch(branch, branchReflectance) {
   const retVal = Tri.prismFromPoints(branch.start, branch.end, branch.width, branchReflectance, new Rad.Spectra(0, 0, 0));
 
   // Add reflectance values
@@ -72,14 +77,8 @@ function createBranch(branch) {
   return retVal;
 }
 
-function createLeaf(leaf, isTree, colour) {
+function createLeaf(leaf, isTree, leafReflectance) {
   if (leaf === '') return 0;
-  if (!isTree) {
-    leafReflectance = new Rad.Spectra(0.7, 0.7, 0.7);
-    if (colour) {
-      leafReflectance = new Rad.Spectra(0.0667, 0.1255, 0.0627);
-    }
-  }
 
   const original = Face.triangle(leafReflectance, new Rad.Spectra(0, 0, 0));
   const mirror = Face.triangle(leafReflectance, new Rad.Spectra(0, 0, 0));
