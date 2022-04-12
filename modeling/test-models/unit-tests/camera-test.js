@@ -3,7 +3,7 @@ import * as Rad from '../../../radiosity/index.js';
 import Transform3 from '../../transform3.js';
 import * as Cube from '../../cube.js';
 
-const defaultReflectance = new Rad.Spectra(1, 1, 1);
+const defaultReflectance = new Rad.Spectra(0, 0, 0);
 const defaultEmittance = new Rad.Spectra(1, 1, 1);
 const defaultCubeReflectance = [
   defaultReflectance,
@@ -11,26 +11,25 @@ const defaultCubeReflectance = [
   defaultReflectance,
   defaultReflectance,
   defaultReflectance,
-  defaultReflectance
-]
+  defaultReflectance,
+];
 const defaultCubeEmittance = [
   defaultEmittance,
   defaultEmittance,
   defaultEmittance,
   defaultEmittance,
   defaultEmittance,
-  defaultEmittance
-]
+  defaultEmittance,
+];
 
-export default async function createScene() {
-
+export default function createScene() {
   const objects = [];
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 500; i++) {
     const obj = makeCube();
     const xForm = new Transform3();
     xForm.translate(-0.5, -0.5, -0.5);
     xForm.scale(0.1, 0.1, 0.1);
-    const [x, y, z] = flightPath(i*40);
+    const [x, y, z] = flightPath(i * 2);
     xForm.translate(x, y, z);
     xForm.transform(obj);
     setActiveTime(obj, [0, 1000]);

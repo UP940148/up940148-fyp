@@ -12,13 +12,14 @@ export function flightPath(step) {
   */
   const speed = 2;
   const t = (step * 2 * Math.PI / 1000) * speed;
+
   const x = 31 * Math.cos(t);
   const y = 31 * Math.sin(t);
   const z = (Math.sin(3 * t) + 2 * Math.cos(t)) + 16;
 
-  const dx = -20 * Math.sin(t);
-  const dy = 20 * Math.cos(t);
-  const dz = 3 * Math.cos(3 * t) - Math.sin(t);
+  const dx = -31 * Math.sin(t);
+  const dy = 31 * Math.cos(t);
+  const dz = 3 * Math.cos(3 * t) - 2 * Math.sin(t);
 
   return [x, y, z, dx, dy, dz];
 }

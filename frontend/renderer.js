@@ -30,7 +30,6 @@ let scene;
 let controls;
 let material;
 let geometry;
-let t = 0;
 const camToggle = document.getElementById('camera-toggle');
 
 let environment;
@@ -46,6 +45,7 @@ export function setup() {
   document.body.append(renderer.domElement);
 
   camera = new THREE.PerspectiveCamera(100, 1, 0.1, 1000);
+  // camera = new THREE.OrthographicCamera( window.innerWidth / -1, window.innerWidth / 1, window.innerHeight / 2, window.innerHeight / -2, -1000, 1000 );
 
   // Create camera object for flight cam and camera helper
   flightCam = new THREE.PerspectiveCamera(84, window.innerWidth / window.innerHeight, 0.01, 1000);
@@ -259,10 +259,6 @@ function animate() {
     axes.update(camera, controls.target);
   }
   axes.render();
-}
-
-export function resetFlight() {
-  t = 0;
 }
 
 export function getCameraPosition() {

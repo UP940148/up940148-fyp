@@ -21,12 +21,12 @@ export function set(key, value) {
 }
 
 export function get(key) {
-    const targetEl = elements.get(key);
+  const targetEl = elements.get(key);
 
-    if (!targetEl) {
-        console.warn(`stats asked to retrieve value from unknown key "${key}"`);
-        return;
-    }
+  if (!targetEl) {
+    console.warn(`stats asked to retrieve value from unknown key "${key}"`);
+    return;
+  }
 
-    return targetEl.textContent;
+  return targetEl.textContent;
 }
