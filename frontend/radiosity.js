@@ -13,7 +13,6 @@ export function open(env, name) {
     stop();
     return;
   }
-  // console.log(env.vertices);
 
   stats.set('instance-count', environment.instances.length);
   stats.set('surface-count', environment.surfaceCount);

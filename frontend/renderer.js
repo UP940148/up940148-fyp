@@ -84,7 +84,6 @@ function setViewSizeToScreenSize() {
 export function showEnvironment(theEnvironment) {
   environment = theEnvironment;
   viewParameters.viewOutput.setTo(false);
-  console.log(viewParameters.viewOutput);
 
   // translate coordinates (once) so the environment is the right way up for THREE.js
   if (!environment._coordinatesTranslated) {

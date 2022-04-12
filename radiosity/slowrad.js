@@ -248,7 +248,6 @@ export default class SlowRad {
     if (data) {
       // If data from file is a match for the scene, then load exitances
       const vertices = this.env.vertices;
-      console.log(vertices.length);
       let v = 0;
       while (v < vertices.length) {
         const exitances = data.exitance[v];
