@@ -253,9 +253,11 @@ function animate() {
   flightCam.lookAt(lookX, lookZ, -lookY);
 
   if (camToggle.dataset.enabled) {
+    controls.enabled = false;
     renderer.render(scene, flightCam);
     axes.update(flightCam, new THREE.Vector3());
   } else {
+    controls.enabled = true;
     renderer.render(scene, camera);
     axes.update(camera, controls.target);
   }
